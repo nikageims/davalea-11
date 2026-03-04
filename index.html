@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 50px; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { text-align: center; color: #333; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 6px; outline: none; transition: border-color 0.3s; }
+        input:focus { border-color: #28a745; }
+        button { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: opacity 0.2s; }
+        .add-btn { background-color: #28a745; color: white; }
+        .add-btn:hover { opacity: 0.8; }
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; border-bottom: 1px solid #eee; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+        li:last-child { border-bottom: none; }
+        .task-text { flex: 1; cursor: pointer; }
+        .completed { text-decoration: line-through; color: #888; }
+        .actions { display: flex; gap: 5px; }
+        .delete-btn { background-color: #ff4d4d; color: white; font-size: 12px; }
+        .check-btn { background-color: #007bff; color: white; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ჩემი თასქები</h2>
+    <div class="input-group">
+        <input type="text" id="taskInput" placeholder="რა არის გასაკეთებელი?">
+        <button class="add-btn" onclick="handleAddTask()">დამატება</button>
+    </div>
+    <ul id="taskList">
+        </ul>
+</div>
+
+<script>
+    const API_URL = 'https://us-central1-js04-b4877.cloudfunctions.net/tasks';
+
+    // 1. ფუნქცია, რომელიც წამოიღებს და დახატავს სიას
+    async function loadTasks() {
+        try {
+            const response = await fetch(API_URL);
+            const tasks = await response.json();
+            const listElement = document.getElementById('taskList');
+            
+            listElement.innerHTML = ''; // ჯერ ვასუფთავებთ ძველ სიას
+
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="task-text ${task.completed ? 'completed' : ''}" onclick="toggleTask('${task.id}', ${task.completed})">
+                        ${task.text}
+                    </span>
+                    <div class="actions">
+                        <button class="check-btn" onclick="toggleTask('${task.id}', ${task.completed})">
+                            ${task.completed ? 'მოხსნა' : 'შესრულება'}
+                        </button>
+                        <button class="delete-btn" onclick="deleteTask('${task.id}')">წაშლა</button>
+                    </div>
+                `;
+                listElement.appendChild(li);
+            });
+        } catch (err) {
+            console.error("მონაცემების წამოღება ვერ მოხერხდა:", err);
+        }
+    }
+
+    // 2. ახალი თასქის დამატება
+    async function handleAddTask() {
+        const input = document.getElementById('taskInput');
+        const text = input.value.trim();
+
+        if (!text) return; // თუ ცარიელია, არაფერი ქნას
+
+        await fetch(`${API_URL}/create`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text })
+        });
+
+        input.value = ''; // ინპუტის გასუფთავება
+        loadTasks(); // სიის განახლება
+    }
+
+    // 3. წაშლა
+    async function deleteTask(id) {
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        loadTasks();
+    }
+
+    // 4. სტატუსის შეცვლა (Check/Uncheck)
+    async function toggleTask(id, isCompleted) {
+        const endpoint = isCompleted ? 'uncheck' : 'check';
+        await fetch(`${API_URL}/${endpoint}/${id}`, { method: 'POST' });
+        loadTasks();
+    }
+
+    // გვერდის ჩატვირთვისთანავე გამოიძახე სია
+    loadTasks();
+</script>
+
+</body>
+</html>
