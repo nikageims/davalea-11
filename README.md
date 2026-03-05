@@ -17,7 +17,7 @@
 
 | ტექნოლოგია | დანიშნულება |
 | :--- | :--- |
-| **Dataase** | მარტივი და კარგი  cloudfunctions.net |
+| **Database** | მარტივი და კარგი  cloudfunctions.net |
 | **HTML** | სუფთა და სემანტიკური სტრუქტურა |
 | **CSS** | Glassmorphism ეფექტები, ნეონის განათებები და ანიმაციები |
 | **JavaScript** | ინტერაქტიული მენიუები და დინამიური ელემენტები |
@@ -35,6 +35,5 @@
 ## 🌐 Live Demo
 
 შეგიძლია ნახო საიტი აქ:  
-🔗 [**cyeaberx.netlify.app**](h)
-
+🔗 [**cyeaberx.netlify.app**](https://11davaleaa.netlify.app/)
 ---
