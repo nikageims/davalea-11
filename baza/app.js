@@ -15,15 +15,20 @@ async function fetchData() {
     
     try {
         const timestamp = new Date().getTime();
-        const targetUrl = `${API_BASE_URL}?t=${timestamp}`;
-        const finalUrl = `${PROXY_URL}${encodeURIComponent(targetUrl)}`;
+        const url = `${API_BASE_URL}?t=${timestamp}`;
+        let data;
 
-        const response = await fetch(finalUrl);
-        if (!response.ok) throw new Error();
-        
-        const fullResponse = await response.json();
-        const tasksArray = fullResponse.data || [];
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error();
+            data = await response.json();
+        } catch (e) {
+            const proxyUrl = `${PROXY_URL}${encodeURIComponent(url)}`;
+            const proxyRes = await fetch(proxyUrl);
+            data = await proxyRes.json();
+        }
 
+        const tasksArray = data.data || [];
         grid.innerHTML = '';
         
         if (tasksArray.length === 0) {
@@ -93,7 +98,7 @@ if (selectAllCheckbox) {
             if (this.checked) {
                 selectedIds.add(id);
                 card.classList.add('selected');
-            } else {
+            } else if (card) {
                 card.classList.remove('selected');
             }
         });
