@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Dashboard | Nika_Geims</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <span class="rocket-icon">🚀</span> Nika_Geims
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="/index.html">🏠 Home</a>
+            </li>
+            <li class="nav-item active">
+                <a href="/baza/index.html">📊 Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="https://us-central1-js04-b4877.cloudfunctions.net/tasks" target="_blank">⚙️ Data API</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">Database viewer v1.1</div>
+    </nav>
+
+    <main class="main-content">
+        <div class="dashboard-wrapper">
+            <header class="db-header">
+                <div class="header-text">
+                    <h1>შენახული მონაცემები</h1>
+                    <p>მართე და გაასუფთავე შენი ინფორმაცია</p>
+                </div>
+                
+                <div class="controls">
+                    <div class="select-all-wrapper" id="selectAllContainer" style="display: none;">
+                        <input type="checkbox" id="selectAll" onchange="toggleAll(this)">
+                        <label for="selectAll">ყველას მონიშვნა</label>
+                    </div>
+                    <button onclick="fetchData()" class="refresh-btn">🔄 განახლება</button>
+                    <button id="bulkDeleteBtn" onclick="deleteSelected()" class="bulk-delete-btn" style="display: none;">🗑️ წაშლა (0)</button>
+                </div>
+            </header>
+
+            <div id="dataGrid" class="data-grid"></div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
