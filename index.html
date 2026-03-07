@@ -1,48 +1,12 @@
 <!DOCTYPE html>
 <html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nika_Geims | Home</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <nav class="sidebar">
-        <div class="logo">
-            <span class="rocket-icon">🚀</span> Nika_Geims
-        </div>
-        <ul class="nav-links">
-            <li class="nav-item active">
-                <a href="/index.html">🏠 Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="/baza/index.html">📊 Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a href="https://us-central1-js04-b4877.cloudfunctions.net/tasks" target="_blank">⚙️ Data API</a>
-            </li>
-        </ul>
-        <div class="sidebar-footer">Database viewer v1.1</div>
-    </nav>
-
-    <main class="main-content">
-        <div class="todo-card">
-            <header>
-                <h1>მომწერე ინფორმაცია</h1>
-                <p>მონაცემები ავტომატურად სინქრონიზდება ღრუბელთან</p>
-            </header>
-            
-            <div class="input-container">
-                <input type="text" id="taskInput" placeholder="შეიყვანეთ ახალი დავალება...">
-                <button id="addBtn">დამატება</button>
-            </div>
-
-            <div class="list-wrapper">
-                <ul id="taskList"></ul>
-            </div>
-        </div>
-    </main>
-
-    <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React App | Nika_Geims</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
